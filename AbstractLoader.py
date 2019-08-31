@@ -1,3 +1,4 @@
+import pandas as pd
 from abc import ABC,abstractmethod
 import data_conversion
 import dim_reducation
@@ -8,7 +9,7 @@ class AbstractLoader(ABC):
         pass
 
     @abstractmethod
-    def __getItem__(self,pos):
+    def __getitem__(self,pos):
         pass
 
     @abstractmethod
@@ -23,19 +24,20 @@ class NumberLoader(AbstractLoader):
         data:can be list,tuple,dict,series,dataFrame
         dim_reduce:can be list or dict
         feat_extract:can be list or dict
-        """
-
-        assert data!=None,"data can`t be None"
-        assert isinstance(dim_reduce,(list,dict)),"dim_reduce can be list or dict"
-        assert isinstance(feat_extract,(list,dict)),"feat_extract can be list or dict"
-
-        if isinstance(data,(list,tuple,dict)):
+        """   
+        if dim_reduce!=None:
+            assert isinstance(dim_reduce,(list,dict)),"dim_reduce can be list or dict"
+            self.dim_reduce = dim_reduce
+        if feat_extract!=None:     
+            assert isinstance(feat_extract,(list,dict)),"feat_extract can be list or dict"
+            self.feat_extract = feat_extract
+        if isinstance(data,(list,tuple,dict,pd.Series,pd.DataFrame)):
             self.data = data_conversion.data_converter(data)
-        self.dim_reduce = dim_reduce
-        self.feat_extract = feat_extract
+   
+    def __getitem__(self,pos):
+        item = self.data[pos] 
+        
 
-    def __getItem__(self,pos):
-        item = self.data[pos]
         return item
     
     def __len__(self):

@@ -1,6 +1,11 @@
 from sklearn.preprocessing import Imputer,LabelBinarizer,LabelEncoder,OneHotEncoder
 import numpy as np
 
+def find_null_values(data):
+    data = data.isna().sum()
+    return data[list(map(lambda x:x[1]!=0,data.iteritems()))]
+
+
 
 class SingletonLabelBinarizer:
     def __init__(self, *args, **kwargs):

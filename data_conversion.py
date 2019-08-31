@@ -2,13 +2,23 @@ import numpy as np
 import pandas as pd
 
 def data_converter(data):
-    assert data!=None,"Data can not be None"
+    #assert data!=None,"Data can not be None"
     if type(data)==list:
         return list2numpy(data)
     elif type(data)==tuple:
         return tuple2numpy(data)
     elif type(data)==dict:
         return dict2numpy(data)
+    elif type(data)==pd.DataFrame:
+        return dataframe2dict(data)
+    elif type(data)==pd.Series:
+        return series2numpy(data)
+
+def series2numpy(data):
+    return np.array(data)
+
+def dataframe2dict(data):
+    return {i:np.array(data[i]) for i in data.columns}
 
 def dict2dataframe(data):
     return pd.DataFrame(data)

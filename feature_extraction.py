@@ -16,7 +16,7 @@ class SingletonDictVectorizer:
             cls.instance=super(SingletonDictVectorizer,cls).__new__(cls)
         return cls.instance
 
-    @property.getter
+    @property
     def vector(self):
         return self.vector
     
